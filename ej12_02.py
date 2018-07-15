@@ -9,8 +9,12 @@ def objetivo_2(problem):
     # bool vars
     my_obj = [0.0]*cant_tipos*cant_meses
     my_types = [problem.variables.type.binary]*cant_tipos*cant_meses
+    nombres = []
 
-    problem.variables.add(obj = my_obj, types = my_types)
+    for m in range(cant_meses):
+        nombres += ["x_usa_"+str(m)+"_"+str(t) for t in range(cant_tipos)]
+
+    problem.variables.add(obj = my_obj, types = my_types, names=nombres)
 
 def constraints_2(problem):
     constraints(problem)
@@ -22,7 +26,6 @@ def constraints_2(problem):
             row_ind = [mes*cant_tipos + tipo, ptro_bool_primer_mes + mes*cant_tipos + tipo]
             row_val = [1.0, -250.0]
             problem.linear_constraints.add(lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val)], rhs=[0.0], senses=["L"])
-    '''
     # bool 1 -> ref > 20
     for mes in range(cant_meses):
         for tipo in range(cant_tipos):
@@ -30,7 +33,7 @@ def constraints_2(problem):
             row_val = [1.0, -20.0]
             problem.linear_constraints.add(lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val)], rhs=[0.0], senses=["G"])
     # veg 1 o veg 2 -> oil 3
-    '''
+
     for mes in range(cant_meses):
 
         #veg 1 -> oil 3
@@ -85,3 +88,4 @@ if __name__ == "__main__":
     problem.solve()
 
     solved_print(problem)
+    print("max: {}".format(problem.solution.get_objective_value()))

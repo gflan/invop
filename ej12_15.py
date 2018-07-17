@@ -65,7 +65,8 @@ def variables(problem):
 
     problem.variables.add(obj = my_obj, types = my_types, names = my_names)
 
-def constraints(problem):
+# "las variables se comportan como queremos"
+def var_constraints(problem):
 
     # si se usa, se encendió
     for g in range(cant_generadores):
@@ -109,6 +110,9 @@ def constraints(problem):
                 senses=["L"]
             )
 
+# "cumplimos las restricciones"
+def req_constraints(problem):
+
     # cumplimos requisitos por periodo
     for p in range(cant_periodos):
         row_ind = [ "x_mw_"+str(p)+"_"+str(g) for g in range (cant_generadores) ]
@@ -128,6 +132,11 @@ def constraints(problem):
             rhs=[ periodos[p]["mw_req"] * 1.15 ],
             senses=["G"]
         )
+
+def constraints(problem):
+
+    var_constraints(problem)
+    req_constraints(problem)
 
 
 def solved_print(problem):

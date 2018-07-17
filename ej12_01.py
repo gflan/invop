@@ -23,7 +23,7 @@ cant_meses = 6
 ##########################
 
 
-def objetivo(problem):
+def variables(problem):
 
     my_obj = []
     my_ub = []

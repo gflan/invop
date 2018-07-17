@@ -2,7 +2,7 @@ from sys import argv
 import cplex
 from ej12_01 import *
 
-def objetivo_2(problem):
+def variables_2(problem):
 
     objetivo(problem)
 

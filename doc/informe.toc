@@ -1,0 +1,31 @@
+\babel@toc {spanish}{}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{3}
+\contentsline {section}{\numberline {2}Modelado}{4}
+\contentsline {subsection}{\numberline {2.1}Ejercicio 12.1}{4}
+\contentsline {subsubsection}{\numberline {2.1.1}Variables}{4}
+\contentsline {subsubsection}{\numberline {2.1.2}Funci\IeC {\'o}n objetivo}{4}
+\contentsline {subsubsection}{\numberline {2.1.3}Restricciones}{4}
+\contentsline {subsection}{\numberline {2.2}Ejercicio 12.2}{5}
+\contentsline {subsubsection}{\numberline {2.2.1}Variables}{5}
+\contentsline {subsubsection}{\numberline {2.2.2}Funci\IeC {\'o}n objetivo}{5}
+\contentsline {subsubsection}{\numberline {2.2.3}Restricciones}{5}
+\contentsline {subsection}{\numberline {2.3}Ejercicio 12.06}{6}
+\contentsline {subsubsection}{\numberline {2.3.1}Variables}{6}
+\contentsline {subsubsection}{\numberline {2.3.2}Funci\IeC {\'o}n objetivo}{6}
+\contentsline {subsubsection}{\numberline {2.3.3}Restricciones}{6}
+\contentsline {subsection}{\numberline {2.4}Ejercicio 12.13}{8}
+\contentsline {subsubsection}{\numberline {2.4.1}Variables}{8}
+\contentsline {subsubsection}{\numberline {2.4.2}Funci\IeC {\'o}n objetivo}{8}
+\contentsline {subsubsection}{\numberline {2.4.3}Restricciones}{8}
+\contentsline {subsection}{\numberline {2.5}Ejercicio 12.15}{10}
+\contentsline {subsubsection}{\numberline {2.5.1}Variables}{10}
+\contentsline {subsubsection}{\numberline {2.5.2}Funci\IeC {\'o}n objetivo}{11}
+\contentsline {subsubsection}{\numberline {2.5.3}Restricciones}{11}
+\contentsline {subsection}{\numberline {2.6}Ejercicio 12.16}{12}
+\contentsline {subsubsection}{\numberline {2.6.1}Variables}{12}
+\contentsline {subsubsection}{\numberline {2.6.2}Funci\IeC {\'o}n objetivo}{12}
+\contentsline {subsubsection}{\numberline {2.6.3}Restricciones}{13}
+\contentsline {subsection}{\numberline {2.7}Ejercicio 12.23}{14}
+\contentsline {subsubsection}{\numberline {2.7.1}Variables}{14}
+\contentsline {subsubsection}{\numberline {2.7.2}Funci\IeC {\'o}n objetivo}{14}
+\contentsline {subsubsection}{\numberline {2.7.3}Restricciones}{14}

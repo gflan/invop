@@ -27,7 +27,6 @@ def variables(problem):
     my_obj = []
     my_ub = []
     my_names = []
-    my_lb = []
 
     # mw generados
     for p in range(cant_periodos):
@@ -35,10 +34,9 @@ def variables(problem):
             # costo extra por hora * cant horas
             my_obj += [ generadores[g]["costo_extra_hora"] * periodos[p]["total_hs"] ]
             my_ub += [ generadores[g]["max_mw"] ]
-            my_lb += [ generadores[g]["min_mw"] ]
             my_names += [ "x_mw_"+str(p)+"_"+str(g) ]
 
-    problem.variables.add(obj = my_obj, ub = my_ub, lb = my_lb, names = my_names)
+    problem.variables.add(obj = my_obj, ub = my_ub, names = my_names)
 
     # generadores encendidos
     my_obj = [ g["costo"] for g in generadores ] * cant_periodos
@@ -92,7 +90,7 @@ def var_constraints(problem):
     for p in range(cant_periodos):
         for g in range(cant_generadores):
             row_ind = [ "x_mw_"+str(p)+"_"+str(g), "x_u_"+str(p)+"_"+str(g) ]
-            row_val = [-1.0, 1.0]
+            row_val = [-1.0, generadores[g]["min_mw"]]
             problem.linear_constraints.add(
                 lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val)],
                 rhs=[0.0],

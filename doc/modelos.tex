@@ -1,0 +1,339 @@
+\section{Modelado}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+En esta parte presentamos las variables, restricciones y función objetivo de cada problema modelado en términos de programas lineales.
+
+\subsection{Ejercicio 12.1}
+\subsubsection{Variables}
+
+\begin{itemize}
+    \item $ X^{R}_{i,j} $ Cantidad refinada del aceite de tipo $j$ el mes $i$
+
+    \item $ X^{C}_{i,j} $ Cantidad comprada del aceite de tipo $j$ para el mes $i$
+
+    \item $ X^{A}_{i,j} $ Cantidad almacenada del aceite de tipo $j$ el mes $i$
+
+\end{itemize}
+
+Asumo que todo lo refinado se vende.
+
+\subsubsection{Función objetivo}
+
+Buscamos maximizar la producción refinada descontando costos de almacenamiento y compra:
+
+$$ \max \quad 150*(\sum_{i,j} X^R_{i,j}) - \sum_{i,j} (Precio(i,j)*X^C_{i,j}) - 5*(\sum_{i,j} X^A_{i,j}) $$
+
+\subsubsection{Restricciones}
+
+\begin{itemize}
+    \item No se puede refinar más de 200 toneladas de cada aceite vegetal y 250 de cada aceite común:
+    $$ X^R_{i,j} \leq 200 \quad \forall j \ vegetal $$
+    $$ X^R_{i,j} \leq 250 \quad \forall j \ comun $$
+    \item No se puede almacenar más de 1000 toneladas por cada aceite:
+    $$ X^A_{i,j} \leq 1000 \quad \forall i,j $$
+    \item Dureza por mes \footnote{se puede reescribir en forma estandard de LP}:
+    $$ 3 \leq \frac{\sum_{j} dureza(j)*X^R_{i,j}}{\sum_{j} X^R_{i,j}} \leq 6 \quad \forall i$$
+    \item 500 de cada aceite almacenado el último día:
+    $$ X^A_{5,j} = 500 \quad \forall j$$
+    \item 500 de cada aceite almacenado al comenzar:
+    $$ X^A_{0,j} + X^R_{0,j} - X^C_{0,j} = 500  \quad \forall j $$
+    \item Lo que sobra el resto de los meses se almacena necesariamente:
+    $$  X^A_{i,j} - X^A_{i-1,j} + X^R_{i,j} - X^C_{i,j} = 0 \quad \forall i,j  $$
+\end{itemize}
+
+\subsection{Ejercicio 12.2}
+
+\subsubsection{Variables}
+Se agregan las variables booleanas que indican si se usó o no cierto aceite un mes dado:
+$$X^U_{i,j}$$
+
+\subsubsection{Función objetivo}
+Permanece igual que en el ejercicio anterior
+
+\subsubsection{Restricciones}
+
+\begin{itemize}
+    \item Forzamos $X^U_{i,j} = 0 \Rightarrow X^R_{i,j} = 0$ usando la cota superior para cantidad refinada de cualquier aceite posible (máximo entre la cota superior de los vegetales y no vegetales) en un mes:
+    $$ X^R_{i,j} \leq 250 * X^U_{i,j} \quad \forall i,j $$
+
+    \item Ahora $X^U_{i,j} = 0 \Leftarrow X^R_{i,j} = 0$ restringiendo que si se usa un aceite, entonces se usan al menos 20 toneladas para refinar:
+    $$ 20*X^U_{i,j} \leq X^R_{i,j}  \quad \forall i,j $$
+
+    \item Por último, usar aceites vegetales implica usar el último tipo de aceite:
+    $$ X^U_{i,veg1} + X^U_{i,veg2} \leq X^U_{i,oil3}  \quad \forall i$$
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Ejercicio 12.06}
+\subsubsection{Variables}
+
+\begin{itemize}
+    \item Cantidad destilada de cada crudo: $X^D_1$ y $X^D_2$
+    \item Cantidad destinada del producto $i$ al blend de petroleo regular:
+
+    $X^{RP}_i$ con $i \in$ \emph{[light nafta, medium nafta, heavy nafta, reformed gasoline, cracked gasoline]}
+    \item Cantidad destinada del producto $i$ al blend de petroleo premium:
+
+    $X^{PP}_i$ con $i \in$ \emph{[light nafta, medium nafta, heavy nafta, reformed gasoline, cracked gasoline]}
+    \item Cantidad destinada del producto $i$ al blend de jet fuel:
+
+    $X^{JF}_i$ con $i \in$ \emph{[light oil, heavy oil, cracked oil, residium]}
+    \item Cantidad producida de fuel oil: $X^{FO}$
+    \item Cantidad producida de lube oil: $X^{LUBE}$
+    \item Cantidad destinada del producto $i$ al proceso de cracking:
+
+    $X^{CR}_i$ con $i \in$ \emph{[light oil, heavy oil]}
+    \item Cantidad destinada del producto al proceso de reforming:
+
+    $X^{REF}_{i}$ $i \in$ \emph{[light nafta, medium nafta, heavy nafta]}
+\end{itemize}
+
+
+\subsubsection{Función objetivo}
+    $$ \max \quad 700*(\sum_{i} X^{PP}_i) + 600*(\sum_{i} X^{RP}_i) +
+    400*(\sum_{i} X^{JF}_i) + 350*X^{FO} + 150*X^{LUBE} $$
+
+\subsubsection{Restricciones}
+    \begin{itemize}
+        \item Cantidad acotada de destilación diaria:
+        $$X^D_1 \leq 20000$$
+        $$X^D_2 \leq 30000$$
+
+        \item Cantidad acotada de producción de lube oil diaria:
+        $$500 \leq X^{LUBE} \leq 1000$$
+
+        \item Cantidad acotada de destilación total diaria:
+        $$X^D_1 + X^D_2 \leq 100000$$
+
+        \item A lo sumo 10000 barriles de nafta reformados:
+        $$ \sum_i (X^{REF}_i) \leq 10000 $$
+
+        \item A lo sumo 8000 barriles de aceite para cracking:
+        $$ \sum_i (X^{CR}_i) \leq 8000 $$
+
+        \item La producción de petroleo premium es más del 40\% del de regular:
+        $$ \sum_i (X^{PP}_i) \geq 0.4 * \sum_i (X^{RP}_i) $$
+
+        \item La cantidad utilizada de cada nafta y aceite es menor igual a la del producto de destilación:
+        $$ X^{REF}_{LN} + X^{PP}_{LN} + X^{RP}_{LN} - 0.1 X^D_1 - 0.15 X^D_2 \leq 0 $$
+        $$ X^{REF}_{MN} + X^{PP}_{MN} + X^{RP}_{MN} - 0.2 X^D_1 - 0.25 X^D_2 \leq 0 $$
+        $$ X^{REF}_{HN} + X^{PP}_{HN} + X^{RP}_{HN} - 0.2 X^D_1 - 0.18 X^D_2 \leq 0 $$
+
+        $$ X^{JF}_{LO} + 10/18*X^{FO} + X^{CR}_{LO} - 0.12  X^D_1 - 0.08  X^D_2 \leq 0 $$
+        $$ X^{JF}_{HO} + 3/18*X^{FO} + X^{CR}_{HO} - 0.2  X^D_1 - 0.19  X^D_2 \leq 0 $$
+        $$ X^{JF}_{RES}+ 1/18*X^{FO}  + X^{LUBE} - 0.13 X^D_1  - 0.12 X^D_2 \leq 0 $$
+
+        \item Idem para cantidades utilizadas de \emph{reformed gasoline} y \emph{cracked oil/gasoline}:
+        $$ X^{PP}_{RG} + X^{PP}_{RG} - 0.6 * X^{REF}_{LN} - 0.52 * X^{REF}_{MN} - 0.45 * X^{REF}_{HN} \leq 0 $$
+        $$ X^{PP}_{CG} + X^{PP}_{CG} - 0.68 * X^{CR}_{LO} - 0.28 * X^{CR}_{HO} \leq 0 $$
+        $$ X^{JF}_{CO} + 4/18 * X^{FO}  - 0.75 * X^{CR}_{LO} - 0.2 * X^{CR}_{HO} \leq 0 $$
+
+        \item Control de octanajes:
+        $$ \sum_i (Octanaje(i)-94)*X^{PP}_i \geq 0 $$
+        $$ \sum_i (Octanaje(i)-84)*X^{RP}_i \geq 0 $$
+
+        \item Control de presión:
+        $$ \sum_i (presion(i)-1)*X^{JF}_i \geq 0  $$
+    \end{itemize}
+
+\subsection{Ejercicio 12.13}
+
+\subsubsection{Variables}
+\begin{itemize}
+    \item Variable booleana $X^1_i$ que representa asignar el retailer $i$-ésimo a la \emph{división 1}. Si es 0 significa que se asigna a la \emph{división 2}.
+    \item Variable continua $t$ que representa cualquier valor numérico mayor al máximo corrimiento respecto de la proporción 40/60.
+\end{itemize}
+\subsubsection{Función objetivo}
+$$ \min \quad t $$
+
+Al minimizar $t$, esta se convierte en el máximo valor absoluto de las diferencias entre la proporción buscada y la obtenida por la solución en cada 'item' de criterios de partición. Buscamos la partición con la mínima desviación máxima entre todos los criterios.
+
+Por lo tanto estamos modelando la propuesta \emph{(ii)} del enunciado para decidir entre particiones posibles. La propuesta \emph{(i)} se modelaría de forma equivalente pero definiendo un $t_j$ específico (en lugar de un único $t$ global) para cada criterio de partición $j$ y minimizando su suma.
+
+\subsubsection{Restricciones}
+Dado el modelo booleano de la asignación de divisiónes, restringir a una partición del 40\% para $D1$ implica necesariamente respetar una proporción 40/60 entre ambas divisiones. Así que todas las restricciones son sobre la \emph{división 1}.
+
+Por un lado tenemos las restricciones que aseguran que la partición sea una partición factible:
+\begin{itemize}
+    \item Número total de \emph{delivery points}:
+    $$ 0.35 \leq \frac{\sum_i delivery\_points(i)*X^1_i}{\sum_i delivery\_points(i)} \leq 0.45 $$
+    \item Control del \emph{spirit market}:
+    $$ 0.35 \leq \frac{\sum_i spirits\_mkt(i)*X^1_i}{\sum_i spirits\_mkt(i)} \leq 0.45 $$
+    \item Control del \emph{oil_market} por región:
+    $$ 0.35 \leq \frac{\sum_{i\in Reg_1} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_1} oil\_mkt(i)} \leq 0.45 $$
+
+    $$ 0.35 \leq \frac{\sum_{i\in Reg_2} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_2} oil\_mkt(i)} \leq 0.45 $$
+
+    $$ 0.35 \leq \frac{\sum_{i\in Reg_3} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_3} oil\_mkt(i)} \leq 0.45 $$
+    \item Cantidad de \emph{retailers} en el grupo A:
+    $$ 0.35 \leq \frac{\sum_{i\in A} X^1_i}{ |A| }  \leq 0.45 $$
+    \item Cantidad de \emph{retailers} en el grupo B:
+    $$ 0.35 \leq \frac{\sum_{i\in B} X^1_i}{ |B| } \leq 0.45 $$
+\end{itemize}
+
+Las siguientes restricciones acotan la $t$ para que sea mayor al valor absoluto de cada desviación respecto del 40\%:
+
+\begin{itemize}
+    \item
+    $$ t  \geq \frac{\sum_i delivery\_points(i)*X^1_i}{\sum_i delivery\_points(i)} - 0.40 $$
+    $$ -t  \leq \frac{\sum_i delivery\_points(i)*X^1_i}{\sum_i delivery\_points(i)} - 0.40 $$
+    \item
+    $$ t \geq \frac{\sum_i spirits\_mkt(i)*X^1_i}{\sum_i spirits\_mkt(i)} - 0.40 $$
+    $$ -t \leq \frac{\sum_i spirits\_mkt(i)*X^1_i}{\sum_i spirits\_mkt(i)} - 0.40 $$
+    \item
+    $$ t \geq \frac{\sum_{i\in Reg_1} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_1} oil\_mkt(i)} - 0.40 $$
+    $$ -t \leq \frac{\sum_{i\in Reg_1} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_1} oil\_mkt(i)} - 0.40 $$
+
+    $$ t \geq \frac{\sum_{i\in Reg_2} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_2} oil\_mkt(i)} - 0.40 $$
+    $$ -t \leq \frac{\sum_{i\in Reg_2} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_2} oil\_mkt(i)} - 0.40 $$
+
+    $$ t \geq \frac{\sum_{i\in Reg_3} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_3} oil\_mkt(i)} - 0.40 $$
+    $$ -t \leq \frac{\sum_{i\in Reg_3} oil\_mkt(i)*X^1_i}{\sum_{i\in Reg_3} oil\_mkt(i)} - 0.40 $$
+    \item
+    $$ t \geq \frac{\sum_{i\in A} X^1_i}{ |A| } - 0.40 $$
+    $$ -t \leq \frac{\sum_{i\in A} X^1_i}{ |A| } - 0.40 $$
+    \item
+    $$ t \geq \frac{\sum_{i\in B} X^1_i}{ |B| } - 0.40 $$
+    $$ -t \leq \frac{\sum_{i\in B} X^1_i}{ |B| } - 0.40 $$
+\end{itemize}
+
+\subsection{Ejercicio 12.15}
+\subsubsection{Variables}
+\begin{itemize}
+    \item Cantidad de megawatts producidos por el generador $g$ durante el periodo $p$: $X^{MW}_{p,g}$
+    \item Variables booleanas $X^{S}_{p,g}$ que representan si se \textbf{encendió} un generador $g$ durante el periodo $p$
+    \item Variables booleanas $X^{U}_{p,g}$ que representan si se \textbf{usó} un generador $g$ durante el periodo $p$
+\end{itemize}
+
+\subsubsection{Función objetivo}
+
+$$\min \quad \sum_{p,g} CostoDeArranque(g)*X^S_{p,g}$$
+$$+ \sum_{p,g} X^{U}_{p,g} * CostoHoraMinimo(g) * CantHoras(p)$$
+$$+ \sum_{p,g} X^{MW}_{p,g} * CostoMWExtraPorHora(g) * CantHoras(p)$$
+$$- \sum_{p,g} X^{U}_{p,g} * MinimoMW(g) * CostoMWExtraPorHora(g) * CantHoras(p) $$
+
+Para el costo de producción sobre el nivel mínimo de cada generador multiplicamos cada megawatt producido por la cantidad de horas y el precio por hora de cada megawatt por encima del umbral mínimo pero, como nos interesan solo los megawatts sobre el minimo, restamos los megawatts anteriores a cruzar el umbral.
+
+\subsubsection{Restricciones}
+
+\begin{itemize}
+    \item Los generadores funcionan de acuerdo a sus capacidades:
+    $$ X^{MW}_{p,g} \leq MaximoMW(g) \quad \forall p,g $$
+
+    \item Si se usa un generador, se encendió:
+    $$ X^U_{0,g} \leq X^S_{0,g} \quad \forall g $$
+    $$ X^U_{p,g} \leq X^S_{p,g} + X^U_{p-1,g} \quad \forall p,g $$
+
+    \item Restringimos $X^{MW}_{p,g} = 0 \Rightarrow X^{U}_{p,g} = 0$ pidiendo que cuando se encienden se usen por encima del mínimo:
+    $$ X^U_{p,g}*MinimoMW(g) \leq X^{MW}_{p,g} \quad \forall p,g $$
+
+    \item Restringimos $X^{MW}_{p,g} = 0 \Leftarrow X^{U}_{p,g} = 0$ usando la \emph{big M}:
+    $$ X^{MW}_{p,g} \leq \mathcal{M}*M^{U}_{p,g} \quad \forall p,g$$
+
+    \item Se cubren los requisitos de energía por periodo:
+    $$ \sum_{g} X^{MW}_{p,g} \geq MWReq(p) \quad \forall p $$
+
+    \item Todos los generadores encendidos en un periodo dado pueden cubrir un aumento del 15\% en la demanda:
+    $$ \sum_{g} X^{U}_{p,g}*MaximoMW(g) \geq MWReq(p)*1.15 \quad \forall p $$
+
+    Claramente para saber cuánto se pierde por pedir el 15\% extra es necesario correr el programa de vuelta sin esta restricción.
+
+    \item No se prenden generadores que no se pagaron:
+    $$ X^S_{p,g} + X^{MW}_{p-1,g} \leq 1 \quad \forall g,p>0 $$
+
+    Esta última restricción forma parte del modelo por cuestiones de correctitud respecto del espacio de soluciones, pero no forma parte del código dado que al tratarse de un problema de minimización de costos no tiene sentido que aparezca una solución óptima que prenda generadores no apagados.
+
+\end{itemize}
+
+\subsection{Ejercicio 12.16}
+
+\subsubsection{Variables}
+Las variables del ejercicio 12.15 se conservan y se agregan las siguientes:
+\begin{itemize}
+    \item $X^U_A$ y $X^U_A$ que determinan si se usó o no el generador de tipo A o B.
+    \item $X^S_A$ y $X^S_B$ lo mismo pero para determinar si se encendieron.
+    \item $X^R_{p,g}$ cantidad de megawatts destinados por el generador $g$ al reservorio a modo de 'pump' en el periodo $g$.
+    \item $X^H_p$ altura del reservorio tras el periodo $p$.
+\end{itemize}
+
+\subsubsection{Función objetivo}
+La función objetivo permanece similar pero agregamos los costos asociados al uso de los hidrogeneradores
+
+$$\min\quad \sum_{p,g} CostoDeArranque(g)*X^S_{p,g}$$
+$$+ \sum_{p,g} X^{U}_{p,g} * CostoHoraMinimo(g) * CantHoras(p)$$
+$$+ \sum_{p,g} X^{MW}_{p,g} * CostoMWExtraPorHora(g) * CantHoras(p)$$
+$$- \sum_{p,g} X^{U}_{p,g} * MinimoMW(g) * CostoMWExtraPorHora(g) * CantHoras(p) $$
+$$+ \sum_{p} (90*X^{U}_{p,A}*CantHoras(p) + 150*X^{U}_{p,B}*CantHoras(p))$$
+$$+ \sum_{p} (X^S_{p,A}*1500 + X^S_{p,B}*1200) $$
+
+\subsubsection{Restricciones}
+Conservamos tambien las restricciones del ejercicio anterior salvo por las de requerimientos de megawatts por periodo (ahora hay que ponderar los hidrogeneradores), pero las relaciones entre variables como $X^U$, $X^{MW}$, $X^S$ y sus cotas se mantienen. Extendemos tambien para hidrogeneradores:
+
+\begin{itemize}
+    \item Si se usa un hidrogenerador, se encendió en  algún momento:
+    $$ X^U_{0,g} \leq X^S_{0,g} \quad g \in \{A,B\} $$
+    $$ X^U_{p,g} \leq X^S_{p,g} + X^U_{p-1,g} \quad g \in \{A,B\} $$
+
+    \item Altura final a 16 metros
+    $$ X^H_{4} = 16 $$
+
+    \item Altura sube y baja de acuerdo al 'pumping' y uso de hidros:
+    $$ X^H_{p} =  X^H_{p-1} - (0.31 * X^U_{p,A} + 0.47 * X^U_{p,B}) * CantHoras(p) + 1/3000 * \sum_{g} X^R_{p,g} \quad \forall p>0 $$
+    $$ X^H_{0} =  16 - (0.31 * X^U_{0,A} + 0.47 * X^U_{0,B}) * 6 + 1/3000 * \sum_{g} X^R_{0,g} $$
+
+    \item Se cubren los requisitos de energía por periodo:
+    $$ \sum_{g} (X^{MW}_{p,g} - X^R_{p,g}) + X^U_{p,A} * NivelMW(A) + X^U_{p,B} * NivelMW(B) \geq MWReq(p) \quad \forall p $$
+    Caso similar al anterior, pero descontamos los megawatts destinados al reservorio y agregamos la producción de los hidros.
+
+    \item Si todos los generadores térmicos encendidos se dedican a producir exclusivamente (es decir, funcionan al máximo y no hacen 'pumping' para el reservorio) y además se prenden ambos hidrogeneradores se puede cubrir un aumento de 15\%:
+
+    $$ \sum_{g} X^{U}_{p,g}*MaximoMW(g) + NivelMW(A) + NivelMW(B) \geq MWReq(g)*1.15 \quad \forall p $$
+
+\end{itemize}
+Nuevamente es válido el mismo comentario sobre encender generadores (en este caso los hidrogeneradores) si ya estaban encendidos dado un problema de minimización de costos.
+
+
+\subsection{Ejercicio 12.23}
+
+\subsubsection{Variables}
+Solamente una 'familia' de variables:
+\begin{itemize}
+    \item $X^1_{i,j}$ y $X^2_{i,j}$ variables booleanas que representan que después de la granja $i$ se viaja directo a la granja $j$ en alguno de los dos caminos respectivos.
+\end{itemize}
+
+\subsubsection{Función objetivo}
+Queremos minimizar la distancia total de ambos caminos en conjunto
+
+$$\min \quad \sum_{i,j} distancia(i,j)*(X^1_{i,j} + X^2_{i,j}) $$
+\subsubsection{Restricciones}
+
+\begin{itemize}
+    \item Visitamos una vez en cada camino las granjas 'obligatorias':
+    $$ \sum_{i} X^1_{i,j} = 1 \quad \forall j < 10 $$
+    $$ \sum_{i} X^2_{i,j} = 1 \quad \forall j < 10 $$
+
+    \item Entre los dos caminos se pasa una vez por cada granja 'opcional':
+    $$ \sum_{i} (X^1_{i,j} + X^2_{i,j}) = 1 \quad \forall j \geq 10 $$
+
+    \item Si se entra a un nodo, se sale de este en el mismo camino:
+    $$ \sum_{i} X^1_{i,j} = \sum_{k} X^1_{j,k}  \quad \forall j $$
+    $$ \sum_{i} X^2_{i,j} = \sum_{k} X^1_{j,k}  \quad \forall j $$
+
+    \item No existen viajes desde una granja a si misma:
+    $$ \sum_{i} X^1_{i,i} = 0 $$
+    $$ \sum_{i} X^2_{i,i} = 0 $$
+
+    \item Los caminos no exceden la capacidad de recolección del camión:
+    $$ \sum_{i,j} collect(j)*X^1_{i,j} \leq 80 $$
+    $$ \sum_{i,j} collect(j)*X^2_{i,j} \leq 80 $$
+
+\end{itemize}
+
+Agregamos además de manera 'lazy' (por cuestión de performance, dada su naturaleza exponencial) restricciones de subtour solamente cuando encontramos un subtour que no pasa por el nodo inicial.
+
+Esto se debe a que una de las condiciones para que funcionen las restricciones de subtour es que el subconjunto de nodos sobre el cual predica cada una de estas restricciones no debe contener al circuito entero, de lo contrario se tiene un falso negativo en la restricción.
+
+Por lo tanto si agregamos también de manera 'lazy' restricciones para estos subtours podríamos propagar una restricción que no es global ni localmente válida.
+
+La idea es que si hay un subtour que contiene al nodo inicial, entonces tiene que haber otro subtour que no lo contenga (de lo contrario sería el único ciclo y no habría subtours)

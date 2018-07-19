@@ -20,7 +20,7 @@ c9:     x_jf_ho + 0.16666666666666666 x_fo + x_cr_ho - 0.2 x_dest_1 - 0.19 x_des
 c10:    x_jf_res + x_lube + 0.05555555555555555 x_fo - 0.13 x_dest_1 - 0.12 x_dest_2 <= 0
 c11:    x_pp_rg + x_rp_rg - 0.6 x_ref_ln - 0.52 x_ref_mn - 0.45 x_ref_hn <= 0
 c12:    x_pp_cg + x_rp_cg - 0.68 x_cr_lo - 0.28 x_cr_ho <= 0
-c13:    x_jf_co + 0.2222222222222222 x_jf_co - 0.75 x_cr_lo - 0.2 x_cr_ho <= 0
+c13:    x_jf_co + 0.2222222222222222 x_fo - 0.75 x_cr_lo - 0.2 x_cr_ho <= 0
 c14:    6 x_rp_ln - 4 x_rp_mn - 14 x_rp_hn + 31 x_rp_rg + 21 x_rp_cg >= 0
 c15:    -4 x_pp_ln - 14 x_pp_mn - 24 x_pp_hn + 21 x_pp_rg + 11 x_pp_cg >= 0
 c16:    -0.4 x_jf_ho + 0.5 x_jf_co - 0.95 x_jf_res <= 0

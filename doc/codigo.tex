@@ -1,0 +1,144 @@
+\section{Código fuente}
+
+Se omite el launcher del lexer dado que solamente es llamar al lexer desde un main y no forma parte del programa principal.
+
+\subsection{tokrules.py}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+    \begin{lstlisting}[language=Python]
+        import ply.lex as lex
+
+        tokens = (
+            'CHR',
+            'DIVIDE'
+        )
+
+        # los literales son chars que matchean de una
+        literals = "_^(){}"
+
+        def t_CHR(t):
+            # el primer ^ toma complemento de los simbolos que siguen
+            r'[^ _ \^ / \( \)\{\}]'
+            return t
+
+        def t_DIVIDE(t):
+            r'/'
+            return t
+
+        t_ignore  = '\t'
+
+        def t_error(t):
+            print("Illegal character '%s'" % t.value[0])
+            t.lexer.skip(1)
+
+    \end{lstlisting}
+
+\subsection{AST.py}
+
+    \begin{lstlisting}[language=Python]
+        class Expr: pass
+
+
+
+
+    \end{lstlisting}
+
+\subsection{parser\_rules.py}
+
+    \begin{lstlisting}[language=Python]
+        import ply.yacc as yacc
+        from tokrules import tokens
+        from AST import *
+
+        SYNTAX_ERROR_IN_INPUT_ERROR_MESSAGE = "Syntax error in input!"
+
+
+    \end{lstlisting}
+
+
+\subsection{AST\_visitors.py}
+
+    \begin{lstlisting}[language=Python]
+        from AST import *
+        from copy import copy
+
+            def visitGroupedPar(self, grouped_expr):
+                grouped_expr.expr.accept(self)
+                times_scale = grouped_expr.h/grouped_expr.e
+                grouped_expr.svg = "<text x=\"0\" y=\"0\" font-size=\"{}\" transform=\"translate({},{}) scale(1,{})\">(</text> \n".format(grouped_expr.e, grouped_expr.x, grouped_expr.y-(times_scale-1)*0.2*grouped_expr.e, times_scale)
+
+                grouped_expr.svg += grouped_expr.expr.svg
+
+                grouped_expr.svg += "<text x=\"0\" y=\"0\" font-size=\"{}\" transform=\"translate({},{}) scale(1,{})\">)</text> \n".format(grouped_expr.e, grouped_expr.x + grouped_expr.a - 0.6*grouped_expr.e, grouped_expr.y-(times_scale-1)*0.2*grouped_expr.e, times_scale)
+
+    \end{lstlisting}
+
+
+\subsection{ParserTest.py}
+
+    \begin{lstlisting}[language=Python]
+        import unittest
+        import main
+        from AST import *
+        from AST_visitors import *
+
+
+                self.assert_equal_ast(ast, "(A^BC^D/E^F_G+H)-I")
+
+            def test_complex_formula_equal_formula_with_curly_brackets(self):
+                astComplexFormula = main.ast_generate("(A^BC^D/E^F_G+H)-I")
+                curlyBracketsFormula = "{({{A^B}{C^D}}/{{{E^F_G}+}H})-}I"
+                astCurlyBrackets = main.ast_generate(curlyBracketsFormula)
+                self.assertEqual(astComplexFormula, astCurlyBrackets)
+
+        if __name__ == '__main__':
+            unittest.main()
+
+    \end{lstlisting}
+
+
+    \subsection{main.py}
+
+        \begin{lstlisting}[language=Python]
+            #!/usr/bin/python3
+        version=\"1.1\" style=\"background: white\">\n<g transform=\"scale(40) translate(1,1)\" font-family=\"Courier\">\n".format(ast_with_attributes.a*50+80, (ast_with_attributes.h1+ast_with_attributes.h2)*40+80, ast_with_attributes.h1)
+                result += ast_with_attributes.svg
+                result += "</g>\n</svg>\n"
+
+                output_file = open(args.output_filename, "w")
+                output_file.write(result)
+                output_file.close()
+
+                if args.print_svg:
+                    print(result)
+
+        \end{lstlisting}

@@ -5,26 +5,26 @@ from sys import argv, exit
 
 nodos = [
     {"x": .0,   "y": .0,    "collect": .0},
-    {"x": -3.0, "y": 3.0,   "collect": .0},
-    {"x": 1.0,  "y": 11.0,  "collect": .0},
-    {"x": 4.0,  "y": 7.0,   "collect": .0},
-    {"x": -5.0, "y": 9.0,   "collect": .0},
-    {"x": -5.0, "y": -2.0,  "collect": .0},
-    {"x": -4.0, "y": 7.0,   "collect": .0},
-    {"x": 6.0,  "y": .0,    "collect": .0},
-    {"x": 3.0,  "y": -6.0,  "collect": .0},
-    {"x": -1.0, "y": -3.0,  "collect": .0},
-    {"x": .0,   "y": -6.0,  "collect": .0},
-    {"x": 6.0,  "y": 4.0,   "collect": .0},
-    {"x": 2.0,  "y": 5.0,   "collect": .0},
-    {"x": -2.0, "y": 8.0,   "collect": .0},
-    {"x": 6.0,  "y": 10.0,  "collect": .0},
-    {"x": 1.0,  "y": 8.0,   "collect": .0},
-    {"x": -3.0, "y": 1.0,   "collect": .0},
-    {"x": -6.0, "y": 5.0,   "collect": .0},
-    {"x": 2.0,  "y": 9.0,   "collect": .0},
-    {"x": -6.0, "y": -5.0,  "collect": .0},
-    {"x": 5.0,  "y": -4.0,  "collect": .0}
+    {"x": -3.0, "y": 3.0,   "collect": 5.0},
+    {"x": 1.0,  "y": 11.0,  "collect": 4.0},
+    {"x": 4.0,  "y": 7.0,   "collect": 3.0},
+    {"x": -5.0, "y": 9.0,   "collect": 6.0},
+    {"x": -5.0, "y": -2.0,  "collect": 7.0},
+    {"x": -4.0, "y": 7.0,   "collect": 3.0},
+    {"x": 6.0,  "y": .0,    "collect": 4.0},
+    {"x": 3.0,  "y": -6.0,  "collect": 6.0},
+    {"x": -1.0, "y": -3.0,  "collect": 5.0},
+    {"x": .0,   "y": -6.0,  "collect": 4.0},
+    {"x": 6.0,  "y": 4.0,   "collect": 7.0},
+    {"x": 2.0,  "y": 5.0,   "collect": 3.0},
+    {"x": -2.0, "y": 8.0,   "collect": 4.0},
+    {"x": 6.0,  "y": 10.0,  "collect": 5.0},
+    {"x": 1.0,  "y": 8.0,   "collect": 6.0},
+    {"x": -3.0, "y": 1.0,   "collect": 8.0},
+    {"x": -6.0, "y": 5.0,   "collect": 5.0},
+    {"x": 2.0,  "y": 9.0,   "collect": 7.0},
+    {"x": -6.0, "y": -5.0,  "collect": 6.0},
+    {"x": 5.0,  "y": -4.0,  "collect": 6.0}
 ]
 
 cant_nodos = len(nodos)
@@ -150,10 +150,10 @@ class IncumbentSubtourCallback(CPX_CB.IncumbentCallback):
 
     # llamada cada vez que hay una nueva candidata a sol. óptima
     def __call__(self):
-        self.times_called += 1
 
         # si hay subtour rechazamos la solución actual
         if self.hay_subtour():
+            self.times_trimmed += 1
             self.reject()
 
     def hay_subtour(self):
@@ -240,8 +240,9 @@ if __name__ == "__main__":
 
     problem.parameters.preprocessing.reduce.set(1)
 
-    subtour_incumbent_cb = problem.register_callback(IncumbentSubtourCallback)
-    subtour_incumbent_cb.times_called = 0
+    #solo testing
+    #subtour_incumbent_cb = problem.register_callback(IncumbentSubtourCallback)
+    #subtour_incumbent_cb.times_trimmed = 0
 
     subtour_lazy_constraint_cb = problem.register_callback(LazySubtourCallback)
     subtour_lazy_constraint_cb.times_added = 0
@@ -257,7 +258,7 @@ if __name__ == "__main__":
     solved_print(problem)
 
     print("")
-    print("incumbents rechazados por subtour desde el nodo inicial:")
-    print("{}".format(subtour_incumbent_cb.times_called))
+    #print("incumbents rechazados por subtour desde el nodo inicial:")
+    #print("{}".format(subtour_incumbent_cb.times_trimmed))
     print("cantidad de lazy constraints de subtour agregadas:")
     print("{}".format(subtour_lazy_constraint_cb.times_added))

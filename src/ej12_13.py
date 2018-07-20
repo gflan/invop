@@ -56,11 +56,11 @@ def constraints(problem):
 
         row_ind += [n]
         problem.linear_constraints.add(
-                                lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val+[-1.0])],
+                                lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val+[-1.0*suma])],
                                 rhs=[0.40*suma],
                                 senses=["L"])
         problem.linear_constraints.add(
-                                lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val+[1.0])],
+                                lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val+[suma])],
                                 rhs=[0.40*suma],
                                 senses=["G"])
 

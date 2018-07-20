@@ -44,6 +44,11 @@ def constraints_2(problem):
         row_val = [1.0, -1.0]
         problem.linear_constraints.add(lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val)], rhs=[0.0], senses=["L"])
 
+        # menos de 3 aceites
+        row_ind = [ptro_bool_primer_mes + mes*cant_tipos + i for i in range(cant_tipos)]
+        row_val = [1.0] * cant_tipos
+        problem.linear_constraints.add(lin_expr=[cplex.SparsePair(ind=row_ind, val=row_val)], rhs=[3.0], senses=["L"])
+
 
 def solved_print(problem):
 

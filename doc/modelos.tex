@@ -38,7 +38,7 @@ $$ \max \quad 150*(\sum_{i,j} X^R_{i,j}) - \sum_{i,j} (Precio(i,j)*X^C_{i,j}) - 
     \item 500 de cada aceite almacenado al comenzar:
     $$ X^A_{0,j} + X^R_{0,j} - X^C_{0,j} = 500  \quad \forall j $$
     \item Lo que sobra el resto de los meses se almacena necesariamente:
-    $$  X^A_{i,j} - X^A_{i-1,j} + X^R_{i,j} - X^C_{i,j} = 0 \quad \forall i,j  $$
+    $$  X^A_{i,j} - X^A_{i-1,j} + X^R_{i,j} - X^C_{i,j} = 0 \quad \forall i>0,j  $$
 \end{itemize}
 
 \subsection{Ejercicio 12.2}
@@ -58,6 +58,9 @@ Permanece igual que en el ejercicio anterior
 
     \item Ahora $X^U_{i,j} = 0 \Leftarrow X^R_{i,j} = 0$ restringiendo que si se usa un aceite, entonces se usan al menos 20 toneladas para refinar:
     $$ 20*X^U_{i,j} \leq X^R_{i,j}  \quad \forall i,j $$
+
+    \item A lo sumo 3 aceites por mes:
+    $$ \sum_{j} X^U_{i,j} \leq 3 \quad \forall i $$
 
     \item Por último, usar aceites vegetales implica usar el último tipo de aceite:
     $$ X^U_{i,veg1} + X^U_{i,veg2} \leq X^U_{i,oil3}  \quad \forall i$$
@@ -104,16 +107,16 @@ Permanece igual que en el ejercicio anterior
         $$500 \leq X^{LUBE} \leq 1000$$
 
         \item Cantidad acotada de destilación total diaria:
-        $$X^D_1 + X^D_2 \leq 100000$$
+        $$X^D_1 + X^D_2 \leq 45000$$
 
         \item A lo sumo 10000 barriles de nafta reformados:
-        $$ \sum_i (X^{REF}_i) \leq 10000 $$
+        $$ \sum_i X^{REF}_i \leq 10000 $$
 
         \item A lo sumo 8000 barriles de aceite para cracking:
-        $$ \sum_i (X^{CR}_i) \leq 8000 $$
+        $$ \sum_i X^{CR}_i \leq 8000 $$
 
         \item La producción de petroleo premium es más del 40\% del de regular:
-        $$ \sum_i (X^{PP}_i) \geq 0.4 * \sum_i (X^{RP}_i) $$
+        $$ \sum_i X^{PP}_i \geq 0.4 * \sum_i X^{RP}_i $$
 
         \item La cantidad utilizada de cada nafta y aceite es menor igual a la del producto de destilación:
         $$ X^{REF}_{LN} + X^{PP}_{LN} + X^{RP}_{LN} - 0.1 X^D_1 - 0.15 X^D_2 \leq 0 $$
@@ -228,7 +231,7 @@ Para el costo de producción sobre el nivel mínimo de cada generador multiplica
     \item Restringimos $X^{MW}_{p,g} = 0 \Rightarrow X^{U}_{p,g} = 0$ pidiendo que cuando se encienden se usen por encima del mínimo:
     $$ X^U_{p,g}*MinimoMW(g) \leq X^{MW}_{p,g} \quad \forall p,g $$
 
-    \item Restringimos $X^{MW}_{p,g} = 0 \Leftarrow X^{U}_{p,g} = 0$ usando la \emph{big M}:
+    \item Restringimos $X^{MW}_{p,g} = 0 \Leftarrow X^{U}_{p,g} = 0$ usando la \emph{big M} (tambien se podría haber usado el máximo de megawatts):
     $$ X^{MW}_{p,g} \leq \mathcal{M}*M^{U}_{p,g} \quad \forall p,g$$
 
     \item Se cubren los requisitos de energía por periodo:
@@ -239,7 +242,7 @@ Para el costo de producción sobre el nivel mínimo de cada generador multiplica
 
     Claramente para saber cuánto se pierde por pedir el 15\% extra es necesario correr el programa de vuelta sin esta restricción.
 
-    \item No se prenden generadores que no se pagaron:
+    \item No se prenden generadores que no se apagaron:
     $$ X^S_{p,g} + X^{MW}_{p-1,g} \leq 1 \quad \forall g,p>0 $$
 
     Esta última restricción forma parte del modelo por cuestiones de correctitud respecto del espacio de soluciones, pero no forma parte del código dado que al tratarse de un problema de minimización de costos no tiene sentido que aparezca una solución óptima que prenda generadores no apagados.
@@ -318,7 +321,7 @@ $$\min \quad \sum_{i,j} distancia(i,j)*(X^1_{i,j} + X^2_{i,j}) $$
 
     \item Si se entra a un nodo, se sale de este en el mismo camino:
     $$ \sum_{i} X^1_{i,j} = \sum_{k} X^1_{j,k}  \quad \forall j $$
-    $$ \sum_{i} X^2_{i,j} = \sum_{k} X^1_{j,k}  \quad \forall j $$
+    $$ \sum_{i} X^2_{i,j} = \sum_{k} X^2_{j,k}  \quad \forall j $$
 
     \item No existen viajes desde una granja a si misma:
     $$ \sum_{i} X^1_{i,i} = 0 $$

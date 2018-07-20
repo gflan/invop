@@ -1,0 +1,245 @@
+\section{Experimentacion}
+
+Experimentaremos sobre los siguientes parametros y constantes asociadas de CPLEX:
+\begin{itemize}
+    \item Presolve
+        \begin{itemize}
+            \item On
+            \item Off
+        \end{itemize}
+    \item Selección de nodos - próximo nodo en el backtracking
+        \begin{itemize}
+            \item Depth first
+            \item Best-bound según función objetivo
+            \item Best-estimate según criterios de factibilidad (recomendada en la documentación para casos donde cuesta encontrar soluciones factibles)
+            \item Implementación alternativa al best-estimate
+        \end{itemize}
+    \item Selección de branches - para qué 'lado' de la partición de una variable seguir
+        \begin{itemize}
+            \item Up
+            \item Down
+        \end{itemize}
+    \item Selección de variables - sobre qué variable priorizar el branching
+        \begin{itemize}
+            \item Minimum y Maximum infeasibility según cercanía a valores enteros
+            \item Pseudo cost derivado de los pseudo-shadow prices
+            \item Pseudo reduced costos derivados de una versión menos computacionalmente intensa de los pseudo costs
+            \item Strong branching resolviendo parcialmente subproblemas de ramas tentativas y viendo cuáles son más 'prometedoras'. 
+        \end{itemize}
+    \item Agresividad de cortes clique y cover
+        \begin{itemize}
+        \item None
+        \item Aggressive
+        \item Very aggressive
+        \end{itemize}
+\end{itemize}
+
+Se prueba cada parámetro aisladamente dejando los demás en su estado por default.
+
+\subsection{Ejercicio 12.02}
+Como puede verse en las tablas, el único flag que afecta los tiempos en total es el de presolve.
+Una posible razón es que una vez que se paga el costo del presolve, el problema queda lo suficientemente sucinto como para que las demás estrategias afecten en algo (considerar que para las experimentaciones que no son del presolve este se setea en \emph{default}, que seguramente es \emph{on}).
+
+\subsubsection{Presolve}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido en ticks \\
+        \hline
+        Presolve off & 0.41 \\
+        \hline
+        Presolve on & 0.91 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Selección de nodos}
+
+    \begin{center}
+        \begin{tabular}{ | m{11em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido \\
+        \hline
+        DFS & 0.91 \\
+        \hline
+        Best bound & 0.91 \\
+        \hline
+        Best estimate & 0.91 \\
+        \hline
+        Alternative estimate & 0.91 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+
+\subsubsection{Selección de branch}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido \\
+        \hline
+        Up & 0.91 \\
+        \hline
+        Down & 0.91 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Selección de variables}
+
+    \begin{center}
+        \begin{tabular}{ | m{11em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido \\
+        \hline
+        Min Infeasability & 0.91 \\
+        \hline
+        Max Infeasability & 0.91 \\
+        \hline
+        Pseudo Costs & 0.91 \\
+        \hline
+        Strong branching & 0.91 \\
+        \hline
+        Pseudo reduced Costs & 0.91 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Cortes cover}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flags  & Tiempo medido \\
+        \hline
+        None  & 0.91 \\
+        \hline
+        Aggressive  & 0.91 \\
+        \hline
+        Very aggressive  & 0.91 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Cortes clique}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flags  & Tiempo medido \\
+        \hline
+        None  & 0.91 \\
+        \hline
+        Aggressive  & 0.91 \\
+        \hline
+        Very aggressive  & 0.91 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+
+\subsection{Ejercicio 12.13}
+A diferencia del caso anterior, demora considerablemente menos la ejecución aplicando presolve.
+Selecciones de nodos o branches no afectan mucho la performance, pero los criterios de selecciones de variables presentan un desvio considerable.
+En el caso de los cortes de clique no afectan en absoluto, lo que daría a entender que CPLEX no pudo aplicar una cantidad significativa de cortes de tal tipo. Cortes cover sí presentan una mínima desviación pero mucho menor a la del switch en presolves y selección de variables.
+
+\subsubsection{Presolve}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido en ticks \\
+        \hline
+        Presolve off & 12.14 \\
+        \hline
+        Presolve on & 3.93 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Selección de nodos}
+
+    \begin{center}
+        \begin{tabular}{ | m{11em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido \\
+        \hline
+        DFS & 3.65 \\
+        \hline
+        Best bound & 3.93 \\
+        \hline
+        Best estimate & 4.10 \\
+        \hline
+        Alternative estimate & 3.85 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+
+\subsubsection{Selección de branch}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido \\
+        \hline
+        Up & 4.45 \\
+        \hline
+        Down & 4.07 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Selección de variables}
+
+    \begin{center}
+        \begin{tabular}{ | m{11em} | m{5cm} | }
+        \hline
+        Flag & Tiempo medido \\
+        \hline
+        Min Infeasability & 9.16 \\
+        \hline
+        Max Infeasability & 6.49 \\
+        \hline
+        Pseudo Costs & 4.15 \\
+        \hline
+        Strong branching & 7.44 \\
+        \hline
+        Pseudo reduced Costs & 3.93 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Cortes cover}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flags  & Tiempo medido \\
+        \hline
+        None  & 3.47 \\
+        \hline
+        Aggressive  & 3.93 \\
+        \hline
+        Very aggressive  & 3.93 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+\subsubsection{Cortes clique}
+
+    \begin{center}
+        \begin{tabular}{ | m{7em} | m{5cm} | }
+        \hline
+        Flags  & Tiempo medido \\
+        \hline
+        None  & 3.93 \\
+        \hline
+        Aggressive  & 3.93 \\
+        \hline
+        Very aggressive  & 3.93 \\
+        \hline
+        \end{tabular}
+    \end{center}

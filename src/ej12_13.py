@@ -114,6 +114,35 @@ if __name__ == "__main__":
     problem = cplex.Cplex()
     problem.objective.set_sense(problem.objective.sense.minimize)
 
+    # experimentacion
+
+    #f = problem.parameters.preprocessing.presolve.values.off
+    #f = problem.parameters.preprocessing.presolve.values.on
+    #problem.parameters.preprocessing.presolve.set(f)
+
+    #f = problem.parameters.mip.strategy.nodeselect.values.depth_first
+    #f = problem.parameters.mip.strategy.nodeselect.values.best_bound
+    #f = problem.parameters.mip.strategy.nodeselect.values.best_estimate
+    #f = problem.parameters.mip.strategy.nodeselect.values.best_estimate_alt
+    #problem.parameters.mip.strategy.nodeselect.set(f)
+
+    #f = problem.parameters.mip.strategy.branch.values.up
+    #f = problem.parameters.mip.strategy.branch.values.down
+    #problem.parameters.mip.strategy.branch.set(f)
+
+    #f = problem.parameters.mip.strategy.variableselect.values.min_infeasibility
+    #f = problem.parameters.mip.strategy.variableselect.values.max_infeasibility
+    #f = problem.parameters.mip.strategy.variableselect.values.pseudo_costs
+    #f = problem.parameters.mip.strategy.variableselect.values.strong_branching
+    #f = problem.parameters.mip.strategy.variableselect.values.pseudo_reduced_costs
+    #problem.parameters.mip.strategy.variableselect.set(f)
+
+    #f = problem.parameters.mip.cuts.covers.values.none
+    #f = problem.parameters.mip.cuts.covers.values.aggressive
+    #f = problem.parameters.mip.cuts.covers.values.very_aggressive
+    #problem.parameters.mip.cuts.covers.set(f)
+    #problem.parameters.mip.cuts.cliques.set(f)
+
     variables(problem)
     constraints(problem)
 
@@ -121,5 +150,4 @@ if __name__ == "__main__":
         problem.write(str(argv[1])+".lp")
 
     problem.solve()
-
     solved_print(problem)

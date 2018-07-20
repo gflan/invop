@@ -3,9 +3,7 @@ import cplex
 from ej12_01 import *
 
 def variables_2(problem):
-
-    objetivo(problem)
-
+    variables(problem)
     # bool vars
     my_obj = [0.0]*cant_tipos*cant_meses
     my_types = [problem.variables.type.binary]*cant_tipos*cant_meses
@@ -79,7 +77,36 @@ if __name__ == "__main__":
     problem = cplex.Cplex()
     problem.objective.set_sense(problem.objective.sense.maximize)
 
-    objetivo_2(problem)
+    # experimentacion
+
+    #f = problem.parameters.preprocessing.presolve.values.off
+    #f = problem.parameters.preprocessing.presolve.values.on
+    #problem.parameters.preprocessing.presolve.set(f)
+
+    #f = problem.parameters.mip.strategy.nodeselect.values.depth_first
+    #f = problem.parameters.mip.strategy.nodeselect.values.best_bound
+    #f = problem.parameters.mip.strategy.nodeselect.values.best_estimate
+    #f = problem.parameters.mip.strategy.nodeselect.values.best_estimate_alt
+    #problem.parameters.mip.strategy.nodeselect.set(f)
+
+    #f = problem.parameters.mip.strategy.branch.values.down
+    #f = problem.parameters.mip.strategy.branch.values.up
+    #problem.parameters.mip.strategy.branch.set(f)
+
+    #f = problem.parameters.mip.strategy.variableselect.values.min_infeasibility
+    #f = problem.parameters.mip.strategy.variableselect.values.max_infeasibility
+    #f = problem.parameters.mip.strategy.variableselect.values.pseudo_costs
+    #f = problem.parameters.mip.strategy.variableselect.values.strong_branching
+    #f = problem.parameters.mip.strategy.variableselect.values.pseudo_reduced_costs
+    #problem.parameters.mip.strategy.variableselect.set(f)
+
+    #f = problem.parameters.mip.cuts.covers.values.none
+    #f = problem.parameters.mip.cuts.covers.values.aggressive
+    #f = problem.parameters.mip.cuts.covers.values.very_aggressive
+    #problem.parameters.mip.cuts.covers.set(f)
+    #problem.parameters.mip.cuts.cliques.set(f)
+
+    variables_2(problem)
     constraints_2(problem)
 
     if len(argv) > 1:

@@ -238,9 +238,8 @@ if __name__ == "__main__":
     problem = cplex.Cplex()
     problem.objective.set_sense(problem.objective.sense.minimize)
 
-    problem.parameters.preprocessing.reduce.set(1)
-
-    #solo testing
+    #para testing
+    #problem.parameters.preprocessing.reduce.set(1)
     #subtour_incumbent_cb = problem.register_callback(IncumbentSubtourCallback)
     #subtour_incumbent_cb.times_trimmed = 0
 

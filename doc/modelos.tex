@@ -332,6 +332,10 @@ $$\min \quad \sum_{i,j} distancia(i,j)*(X^1_{i,j} + X^2_{i,j}) $$
 
 Agregamos además de manera 'lazy' (por cuestión de performance, dada su naturaleza exponencial) restricciones de subtour solamente cuando encontramos un subtour que no pasa por el nodo inicial.
 
+$$ \sum_{i,j \in S} x^1_{i,j} \leq |S|-1 \quad \forall S \subset V, 0\ (depot) \not \in S $$
+$$ \sum_{i,j \in S} x^2_{i,j} \leq |S|-1 \quad \forall S \subset V, 0 \not \in S $$
+
+
 Esto se debe a que una de las condiciones para que funcionen las restricciones de subtour es que el subconjunto de nodos sobre el cual predica cada una de estas restricciones no debe contener al circuito entero, de lo contrario se tiene un falso negativo en la restricción.
 
 Por lo tanto si agregamos también de manera 'lazy' restricciones para estos subtours podríamos propagar una restricción que no es global ni localmente válida.

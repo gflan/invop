@@ -41,7 +41,6 @@ def variables(problem):
         my_ub += [cplex.infinity]*cant_tipos
         nombres += ["x_cmp_"+str(mes)+"_"+str(tipo) for tipo in range(cant_tipos)]
 
-
     #almacenado
     for mes in range(cant_meses):
         my_obj += [-5.0]*cant_tipos
@@ -130,7 +129,7 @@ if __name__ == "__main__":
     problem = cplex.Cplex()
     problem.objective.set_sense(problem.objective.sense.maximize)
 
-    objetivo(problem)
+    variables(problem)
     constraints(problem)
 
     if len(argv) > 1:
